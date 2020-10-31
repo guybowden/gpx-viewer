@@ -48,10 +48,10 @@ var map = new mapboxgl.Map({
   zoom: 10,
 });
 
-function initMap(gpxURLs, padding) {
+function initMap(baseURL, gpxURLs, padding) {
   map.on("load", function () {
     gpxURLs.map((url, idx) =>
-      getGPXFile(url)
+      getGPXFile(baseURL + url)
         .then((xml) => toGeoJSON.gpx(xml))
         .then((geoJSON) => addGeoJSON(geoJSON, idx, padding))
     );
@@ -63,8 +63,8 @@ function init() {
 
   const padding = parseInt(URLParams.get("padding") || "50", 10);
   const gpxURLs = URLParams.get("gpx").split(",");
-
-  initMap(gpxURLs, padding);
+  const baseURL = URLParams.get("baseURL") || "";
+  initMap(baseURL, gpxURLs, padding);
 }
 
 init();
