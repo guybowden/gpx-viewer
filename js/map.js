@@ -62,9 +62,17 @@ function init() {
   const URLParams = new URLSearchParams(window.location.search);
 
   const padding = parseInt(URLParams.get("padding") || "50", 10);
+  const controls = URLParams.get("controls") || "";
   const gpxURLs = URLParams.get("gpx").split(",");
   const baseURL = URLParams.get("baseURL") || "";
   initMap(baseURL, gpxURLs, padding);
+
+  if (controls.indexOf("fullscreen") > -1) {
+    map.addControl(new mapboxgl.FullscreenControl());
+  }
+  if (controls.indexOf("nav") > -1) {
+    map.addControl(new mapboxgl.NavigationControl());
+  }
 }
 
 init();
